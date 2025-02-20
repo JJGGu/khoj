@@ -302,6 +302,11 @@ Resources:
             systemctl enable khoj
             
             fi
+            cat > /root/application/.env << "EOF"
+            {{ serviceConfigParam }}
+            EOF
+
+            systemctl is-active --quiet khoj && systemctl stop khoj
             systemctl daemon-reload
             systemctl start khoj
           - RegionId:

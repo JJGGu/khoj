@@ -5,7 +5,14 @@ ServiceBuildRegion: ap-southeast-1
 RepoName: JJGGu/khoj
 DockerComposeEnvPath: .env
 RegionId: cn-hangzhou
-CustomParameters: ''
+CustomParameters:
+- NoEcho: false
+  Type: String
+  AllowedPattern: ''
+  Label: Test
+  ConstraintDescription: ''
+  Default: sdff
+  Name: TEST
 DockerComposeYamlPath: docker-compose.yml
 Owner: JJGGu
 Branch: master

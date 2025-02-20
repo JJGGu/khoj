@@ -22,6 +22,20 @@ Service:
             Type: Custom
             Parameters:
               - InstancePassword
+    ParameterConfigs:
+      - TemplateName: 'ECS单机版'
+        Parameters:
+          TEST:
+            Type: String
+            Default: sdff
+            Description: Test
+        Metadata:
+           ParameterGroups:
+             - Parameters:
+                 - TEST
+               DefaultEnvFilePath: ../.env
+               Formatter: env
+               Name: Default
   DeployMetadata:
     SupplierDeployMetadata:
       SupplierTemplateConfigs:
@@ -61,16 +75,15 @@ Artifact:
         Branch: master
       RegionId: ap-southeast-1
       CommandType: RunShellScript
-      SourceImageId: 
       CommandContent: |-
         mkdir -p /root/application
-        if [ -e "/root/code/.env" ]; then cp -r "/root/code/.env" "/root/application/"; fi
-        if [ -e "/root/code/docker-compose.yml" ]; then cp -r "/root/code/docker-compose.yml" "/root/application/"; fi
-        if [ -e "/root/code/khoj_search" ]; then cp -r "/root/code/khoj_search" "/root/application/"; fi
+        if [ -e "/root/code/khoj_db" ]; then cp -r "/root/code/khoj_db" "/root/application/"; fi
         if [ -e "/root/code/khoj_models" ]; then cp -r "/root/code/khoj_models" "/root/application/"; fi
         if [ -e "/root/code/khoj_config" ]; then cp -r "/root/code/khoj_config" "/root/application/"; fi
-        if [ -e "/root/code/khoj_db" ]; then cp -r "/root/code/khoj_db" "/root/application/"; fi
+        if [ -e "/root/code/khoj_search" ]; then cp -r "/root/code/khoj_search" "/root/application/"; fi
+        if [ -e "/root/code/.env" ]; then cp -r "/root/code/.env" "/root/application/"; fi
+        if [ -e "/root/code/docker-compose.yml" ]; then cp -r "/root/code/docker-compose.yml" "/root/application/"; fi
         cd /root/application
         sed -i 's/pull_policy: always/pull_policy: if_not_present/g' docker-compose.yml
-        docker compose -f docker-compose.yml build
-        docker compose -f docker-compose.yml pull || true;
+        docker compose -f docker-compose.yml build 
+        docker compose -f docker-compose.yml pull 2>&1 | stdbuf -oL grep -viE 'Downloading|sha256|extracting|KiB|Downloaded' || true;
