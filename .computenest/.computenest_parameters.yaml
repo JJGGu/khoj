@@ -13,6 +13,13 @@ CustomParameters:
   ConstraintDescription: ''
   Default: sdff
   Name: TEST
+- NoEcho: false
+  Type: String
+  AllowedPattern: ''
+  Label: Test1
+  ConstraintDescription: ''
+  Default: sdffdff
+  Name: TEST22
 DockerComposeYamlPath: docker-compose.yml
 Owner: JJGGu
 Branch: master
