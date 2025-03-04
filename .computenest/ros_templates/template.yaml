@@ -304,17 +304,17 @@ Resources:
             cat > /usr/local/bin/check-container-status <<'EOF'
             #!/bin/bash
             COMPOSE_FILE="docker-compose.yml"
-            MAX_WAIT_TIME=120
+            MAX_WAIT_TIME=3600
             CHECK_INTERVAL=10
 
             if ! command -v docker compose &> /dev/null; then
-                echo "Error: docker compose is not installed" >&2
+                echo "Error: docker compose is not installed"
                 exit 1
             fi
 
             SERVICES=$(docker compose -f "$COMPOSE_FILE" config --services 2>/dev/null)
             if [ -z "$SERVICES" ]; then
-                echo "Error: No services found" >&2
+                echo "Error: No services found"
                 exit 1
             fi
 
@@ -327,7 +327,7 @@ Resources:
                     CONTAINER_ID=$(docker compose -f "$COMPOSE_FILE" ps -q "$SERVICE")
 
                     if [ -z "$CONTAINER_ID" ]; then
-                        echo "[$SERVICE] Not running" >&2
+                        echo "[$SERVICE] Not running"
                         ALL_HEALTHY=false
                         continue
                     fi
@@ -342,14 +342,14 @@ Resources:
                     case "$HEALTH_STATUS" in
                         "healthy") ;;
                         "unhealthy"|"starting")
-                            echo "[$SERVICE] Unhealthy: $HEALTH_STATUS" >&2
+                            echo "[$SERVICE] Unhealthy: $HEALTH_STATUS"
                             ALL_HEALTHY=false
                             ;;
                         "no-healthcheck")
                             [ "$STATUS" != "running" ] && ALL_HEALTHY=false
                             ;;
                         *)
-                            echo "[$SERVICE] Unknown status: $HEALTH_STATUS" >&2
+                            echo "[$SERVICE] Unknown status: $HEALTH_STATUS"
                             ALL_HEALTHY=false
                             ;;
                     esac

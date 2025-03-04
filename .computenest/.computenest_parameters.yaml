@@ -5,6 +5,7 @@ ServiceBuildRegion: ap-southeast-1
 RepoName: JJGGu/khoj
 DockerComposeEnvPath: .env
 RegionId: cn-hangzhou
+CustomParameters: ''
 DockerComposeYamlPath: docker-compose.yml
 Owner: JJGGu
 Branch: master

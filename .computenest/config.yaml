@@ -63,12 +63,12 @@ Artifact:
       CommandType: RunShellScript
       CommandContent: |-
         mkdir -p /root/application
+        if [ -e "/root/code/khoj_config" ]; then cp -r "/root/code/khoj_config" "/root/application/"; fi
+        if [ -e "/root/code/khoj_models" ]; then cp -r "/root/code/khoj_models" "/root/application/"; fi
+        if [ -e "/root/code/.env" ]; then cp -r "/root/code/.env" "/root/application/"; fi
         if [ -e "/root/code/khoj_search" ]; then cp -r "/root/code/khoj_search" "/root/application/"; fi
         if [ -e "/root/code/khoj_db" ]; then cp -r "/root/code/khoj_db" "/root/application/"; fi
         if [ -e "/root/code/docker-compose.yml" ]; then cp -r "/root/code/docker-compose.yml" "/root/application/"; fi
-        if [ -e "/root/code/.env" ]; then cp -r "/root/code/.env" "/root/application/"; fi
-        if [ -e "/root/code/khoj_config" ]; then cp -r "/root/code/khoj_config" "/root/application/"; fi
-        if [ -e "/root/code/khoj_models" ]; then cp -r "/root/code/khoj_models" "/root/application/"; fi
         cd /root/application
         sed -i 's/pull_policy: always/pull_policy: if_not_present/g' docker-compose.yml
         docker compose -f docker-compose.yml build 
